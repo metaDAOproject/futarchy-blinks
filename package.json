@@ -1,0 +1,21 @@
+{
+  "name": "futarchy-blinks",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "dev": "tsx watch app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@solana/actions": "^1.6.5",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.1"
+  }
+}
