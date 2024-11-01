@@ -33,7 +33,7 @@ export interface Client {
   ): Promise<FieldsSelection<mutation_root, R>>;
 }
 
-const GQL_URL = process.env.NEXT_PUBLIC_INDEXER_URL;
+const GQL_URL = process.env.GRAPHQL_URL;
 console.log(GQL_URL);
 
 export const createClient = function (options?: ClientOptions): Client {
