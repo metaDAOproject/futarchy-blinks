@@ -49,7 +49,7 @@ async function getProposalLink(req, res) {
   try {
     const proposalAccount = req.params.proposalAccount;
     const client = createClient({
-      url: process.env.NEXT_PUBLIC_INDEXER_URL,
+      url: process.env.GRAPHQL_URL,
     });
     const response = await client.query({
       proposal_details: {
@@ -130,6 +130,12 @@ async function postProposalLink(req, res) {
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  console.log(`GRAPHQL_URL: ${process.env.GRAPHQL_URL}`);
+  console.log(`DEPLOYMENT_URL: ${process.env.DEPLOYMENT_URL}`);
+  console.log(`BASE_URL: ${BASE_URL}`);
+  console.log(`APP_URL: ${APP_URL}`);
+  console.log(`BLOCKCHAIN_ID: ${BLOCKCHAIN_ID}`);
+  console.log(`ACTION_VERSION: ${ACTION_VERSION}`);
 });
 
 export default app;
