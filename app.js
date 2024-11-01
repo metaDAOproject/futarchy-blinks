@@ -37,6 +37,8 @@ app.post('/api/proposal-link/link', postProposalLink);
 // Route handlers
 function getActionsJson(req, res) {
   const payload = {
+    "x-action-version": ACTION_VERSION,
+    "x-blockchain-ids": BLOCKCHAIN_ID,
     rules: [
       { pathPattern: '/*', apiPath: '/api/proposal-link/*' },
       { pathPattern: '/api/proposal-link/**', apiPath: '/api/proposal-link/**' },
@@ -118,6 +120,8 @@ async function postProposalLink(req, res) {
   try {
     const { proposalAccount, slug } = req.query;
     const payload = {
+      "x-action-version": ACTION_VERSION,
+      "x-blockchain-ids": BLOCKCHAIN_ID,
       type: 'external-link',
       externalLink: `https://${APP_URL}/${slug}/trade/${proposalAccount}`,
     };
