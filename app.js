@@ -29,16 +29,21 @@ const app = express();
 app.use(express.json());
 app.use(actionCorsMiddleware());
 
+// Middleware for specific routes
+const addCustomHeaders = (req, res, next) => {
+  res.header('X-Action-Version', ACTION_VERSION);
+  res.header('X-Blockchain-IDs', BLOCKCHAIN_ID);
+  next();
+};
+
 // Routes
-app.get('/actions.json', getActionsJson);
-app.get('/api/proposal-link/:proposalAccount', getProposalLink);
-app.post('/api/proposal-link/link', postProposalLink);
+app.get('/actions.json', addCustomHeaders, getActionsJson);
+app.get('/api/proposal-link/:proposalAccount', addCustomHeaders, getProposalLink);
+app.post('/api/proposal-link/link', addCustomHeaders, postProposalLink);
 
 // Route handlers
 function getActionsJson(req, res) {
   const payload = {
-    "x-action-version": ACTION_VERSION,
-    "x-blockchain-ids": BLOCKCHAIN_ID,
     rules: [
       { pathPattern: '/*', apiPath: '/api/proposal-link/*' },
       { pathPattern: '/api/proposal-link/**', apiPath: '/api/proposal-link/**' },
@@ -96,8 +101,6 @@ async function getProposalLink(req, res) {
       title: proposalDetails.title ?? '',
       label: 'Proposal link',
       description: "",
-      "x-action-version": ACTION_VERSION,
-      "x-blockchain-ids": BLOCKCHAIN_ID,
       links: {
         actions: [
           {
@@ -120,8 +123,6 @@ async function postProposalLink(req, res) {
   try {
     const { proposalAccount, slug } = req.query;
     const payload = {
-      "x-action-version": ACTION_VERSION,
-      "x-blockchain-ids": BLOCKCHAIN_ID,
       type: 'external-link',
       externalLink: `https://${APP_URL}/${slug}/trade/${proposalAccount}`,
     };
