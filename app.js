@@ -15,7 +15,10 @@ const LOGO =
   'https://imagedelivery.net/HYEnlujCFMCgj6yA728xIw/c86809b4-f37e-4a77-4a47-608533a97900/public';
 
 const PORT = process.env.PORT || 3000;
-const BASE_URL = `http://localhost:${PORT}`;
+const DEPLOYMENT_URL = process.env.DEPLOYMENT_URL || 'localhost';
+const BASE_URL = `https://${DEPLOYMENT_URL}:${PORT}`;
+
+const APP_URL = process.env.APP_URL ?? 'staging.themetadao.org';
 
 // Express app setup
 const app = express();
@@ -110,7 +113,7 @@ async function postProposalLink(req, res) {
     const { proposalAccount, slug } = req.query;
     const payload = {
       type: 'external-link',
-      externalLink: `https://staging.themetadao.org/${slug}/trade/${proposalAccount}`,
+      externalLink: `https://${APP_URL}/${slug}/trade/${proposalAccount}`,
     };
     res.json(payload);
   } catch (err) {
