@@ -3,10 +3,10 @@ dotenv.config();
 
 import express from 'express';
 import {
-  Action,
-  ActionGetResponse,
-  ActionPostResponse,
-  CompletedAction,
+  // Action,
+  // ActionGetResponse,
+  // ActionPostResponse,
+  // CompletedAction,
   actionCorsMiddleware,
 } from '@solana/actions';
 import { createClient } from './__generated__';
@@ -14,11 +14,15 @@ import { createClient } from './__generated__';
 const LOGO =
   'https://imagedelivery.net/HYEnlujCFMCgj6yA728xIw/c86809b4-f37e-4a77-4a47-608533a97900/public';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3030;
 const DEPLOYMENT_URL = process.env.DEPLOYMENT_URL || 'localhost';
 const BASE_URL = `https://${DEPLOYMENT_URL}:${PORT}`;
 
 const APP_URL = process.env.APP_URL ?? 'staging.themetadao.org';
+
+const BLOCKCHAIN_ID = 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp'; // Mainnet
+const ACTION_VERSION = '2.1.3';
+// const BLOCKCHAIN_ID = 'solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1'; // Devnet
 
 // Express app setup
 const app = express();
@@ -90,6 +94,8 @@ async function getProposalLink(req, res) {
       title: proposalDetails.title ?? '',
       label: 'Proposal link',
       description: "",
+      "x-action-version": ACTION_VERSION,
+      "x-blockchain-ids": BLOCKCHAIN_ID,
       links: {
         actions: [
           {
