@@ -3,11 +3,7 @@ dotenv.config();
 
 import express from 'express';
 import {
-  // Action,
-  // ActionGetResponse,
-  // ActionPostResponse,
-  // CompletedAction,
-  actionCorsMiddleware,
+  actionCorsMiddleware
 } from '@solana/actions';
 import { createClient } from './__generated__';
 
@@ -33,24 +29,15 @@ app.use(actionCorsMiddleware());
 const addCustomHeaders = (req, res, next) => {
   res.header('X-Action-Version', ACTION_VERSION);
   res.header('X-Blockchain-IDs', BLOCKCHAIN_ID);
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Encoding, Accept-Encoding');
   next();
 };
 
 // Routes
-app.get('/actions.json', addCustomHeaders, getActionsJson);
-app.get('/api/proposal-link/:proposalAccount', addCustomHeaders, getProposalLink);
+app.get('/api/proposal-link/:daoSlug/trade/:proposalAccount', addCustomHeaders, getProposalLink);
 app.post('/api/proposal-link/link', addCustomHeaders, postProposalLink);
-
-// Route handlers
-function getActionsJson(req, res) {
-  const payload = {
-    rules: [
-      { pathPattern: '/*', apiPath: '/api/proposal-link/*' },
-      { pathPattern: '/api/proposal-link/**', apiPath: '/api/proposal-link/**' },
-    ],
-  };
-  res.json(payload);
-}
 
 async function getProposalLink(req, res) {
   try {
